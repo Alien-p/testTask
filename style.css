@@ -1,3 +1,51 @@
+
+
+.container {
+    width: 1024px;
+    min-height: 560px;
+    margin: 50px auto;
+    
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.header {
+    width: 70%;
+}
+
+.middle {
+    width: 50%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+.footer {
+    margin-bottom: 20px;
+}
+
+button {
+    background: none;
+    border-color: lightblue;
+    border-radius: 5px;
+    padding: 7px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+button#ready {
+    background-color: lightblue;
+}
+
 h1 {
-    color: blue;
+    font-family: 'Ubuntu', 'Avenir';
+    font-weight: 700;
+    text-align: center;
 }
