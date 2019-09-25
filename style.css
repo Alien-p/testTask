@@ -1,4 +1,16 @@
+/*-------------
+ 	General
+-------------*/
 
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+    font-size: 20px;
+}
 
 .container {
     width: 1024px;
@@ -15,37 +27,89 @@
     align-items: center;
 }
 
-
-.header {
-    width: 70%;
+button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 5px;
+    padding: 7px;
+    padding-left: 25px;
+    padding-right: 25px;
+    transition: all 0.2s;
 }
 
+/*-------------
+ 	Header
+-------------*/
+.header {
+    width: 70%;
+    padding-top: 50px;
+}
+
+.header h1 {
+    font-family: 'Ubuntu', 'Avenir';
+    font-weight: 700;
+    font-size: 32px;
+    text-align: center;
+}
+
+/*-------------
+ 	Middle
+-------------*/
 .middle {
-    width: 50%;
+    width: 65%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-around;
 }
 
-.footer {
-    margin-bottom: 20px;
+button#answer {
+    color: #3a76a3;
+    border: 2px solid;
+    border-color: #3a76a3;
+
 }
 
-button {
-    background: none;
-    border-color: lightblue;
-    border-radius: 5px;
-    padding: 7px;
-    padding-left: 20px;
-    padding-right: 20px;
+button#answer:hover {
+    background-color: #f2f2f2;
+}
+
+.buttonClicked {
+    color: white; 
+    background-color: #3a76a3;
+}
+
+.buttonWrong {
+    color: white;
+    background-color: #f05a69;
+}
+
+/*-------------
+ 	Footer
+-------------*/
+.footer {
+    margin-bottom: 50px;
+    display: flex;
+    flex-flow: column nowrap;
 }
 
 button#ready {
-    background-color: lightblue;
+    background-color: #b9e0ed;
+    color: white;
 }
-
-h1 {
-    font-family: 'Ubuntu', 'Avenir';
-    font-weight: 700;
-    text-align: center;
+.buttonReadyActive {
+    background-color: #70c5e2;
+}
+.buttonReadyActive:hover {
+    background-color: #39b6e2;
+}
+.buttonReadyRight:hover {
+    background-color: #8fbe83;
+}
+button#hint {
+    margin-bottom: 20px;
+    background-color: #add9da;
+    color: white;
 }
