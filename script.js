@@ -1,0 +1,1 @@
+document.querySelector("#btn").addEventListener( "click", () => alert("I was clicked :3") );
