@@ -11,27 +11,27 @@ $('button#answer').click( function() {
 
 function checkBtnInList (button) {
     let btnText = button.textContent;
-    
+
     if(map.has(btnText) && map.size == 1) {
         map.clear();
-        toogleReadyBtn(true);
+        turnOffReadyBtn(true);
     } else if(map.size == 0) {
         map.set(btnText);
-        toogleReadyBtn(false);
+        turnOffReadyBtn(false);
     } else if( !map.has(btnText) && map.size >= 1) {
         map.set(btnText);
     } else {
         map.delete(btnText);
     }
 }
-function toogleReadyBtn (switchBtn) {
-    readyBtn.toggleClass("buttonReadyActive");
-    readyBtn.attr("disabled", switchBtn);
-}
 
 /**
  * Checking answers
  */
+
+$('#ready').click( function() {
+    checkAnswers(this);
+})
 
 function checkAnswers (readyBtn) {
     //Get all selected buttons
@@ -60,11 +60,16 @@ function checkAnswers (readyBtn) {
     }
 }
 
+function turnOffReadyBtn (switchBtn) {
+    readyBtn.toggleClass("buttonReadyActive");
+    readyBtn.attr("disabled", switchBtn);
+}
 
 function wrongAnswer(message) {
     document.getElementById('ready').classList.add("wrongBtn"); 
     document.getElementById('hint').textContent = message;
     document.getElementById('hint').style.visibility = "visible";
+    turnOffReadyBtn(true);
 
     refreshBtns();    
 }
@@ -92,7 +97,3 @@ function refreshBtns() {
         map.clear();
     }, 1000);
 }
-
-$('#ready').click( function() {
-    checkAnswers(this);
-})
