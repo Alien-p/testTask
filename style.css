@@ -28,6 +28,7 @@ html {
 }
 
 button {
+    min-height: 40px;
     background: none;
     border: none;
     font-size: 20px;
@@ -37,7 +38,7 @@ button {
     padding: 7px;
     padding-left: 25px;
     padding-right: 25px;
-    transition: all 0.2s;
+    transition: background 0.2s;
 }
 
 /*-------------
@@ -88,11 +89,14 @@ button#answer.buttonClicked {
     margin-bottom: 50px;
     display: flex;
     flex-flow: column nowrap;
+    align-items: center;
 }
 
 /* Ready button */
 button#ready {
     background-color: #b9e0ed;
+    border: 1px solid;
+    border-color: #b9e0ed;
     color: white;
 }
 
@@ -137,6 +141,6 @@ button#answer.wrongBtn:hover {
 button#hint {
     margin-bottom: 20px;
     background-color: #add9da;
-    color: white;
+    color: black;
     visibility: hidden;
 }

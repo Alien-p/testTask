@@ -36,52 +36,63 @@ function checkBtnInList (button) {
  * Checking answers
  */
 
- function markAnswers (readyBtn) {
-    let activeBtns = [];
+ function checkAnswers (readyBtn) {
+
+    let activeBtns = Array.from( $('.buttonClicked') );
 
     if( JSON.stringify(activeBtnsText) == JSON.stringify(rightAnswers) ) {
-        $(readyBtn).addClass("buttonReadyCorrect"); 
-    } else {
-        activeBtns = Array.from( $('.buttonClicked') );
-        
+        $(readyBtn).addClass("buttonReadyCorrect");
+        document.getElementById('hint').style.visibility = "hidden"; 
+        hideBtns();
+    } else if(activeBtns.length >= rightAnswers.length) {
         activeBtns.forEach(btn => {
             let btnIndex = rightAnswers.indexOf(btn.textContent);
             if(btnIndex == -1) {
                 btn.classList.remove("buttonClicked");
                 btn.classList.add("wrongBtn");
-                readyBtn.classList.add("wrongBtn"); 
 
+                document.getElementById('ready').classList.add("wrongBtn"); 
                 document.getElementById('hint').textContent = "Вычисли x"
                 document.getElementById('hint').style.visibility = "visible";
+
+                refreshBtns();
             }
         });
+    } else {
+        document.getElementById('hint').textContent = "Это не все правильные ответы"
+        document.getElementById('hint').style.visibility = "visible";
+        document.getElementById('ready').classList.add("wrongBtn"); 
+        refreshBtns();
     }
 }
 
+
+
+function hideBtns() {
+    let elements = Array.from($(".container > *"));
+    setTimeout( () => {
+        elements.forEach ( function(element) {
+            element.style.display = "none";
+        } );
+    }, 1500 );
+
+}
+
 function refreshBtns() {
+    let elements = Array.from($(".middle > *"));
+
     setTimeout(() => {
         $('#hint').removeClass();
-        $('#answer').removeClass();
         $('#ready').removeClass();
+        elements.forEach( (btn) => {
+            $(btn).removeClass();
+        })
+        activeBtnsText = [];
     }, 1000);
 }
 
 $('#ready').click( function() {
-
-    markAnswers(this);
-
-    refreshBtns();
-
-    //  {
-    //     $(this).addClass("buttonReadyWrong");
-
-    //  } 
-
-    // setTimeout(() => {
-    //     $(this).removeClass("buttonReadyWrong");
-
-    // }, 1000);
-
+    checkAnswers(this);
 })
 
 
