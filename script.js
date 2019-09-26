@@ -1,8 +1,7 @@
-let activeBtnsText = [];
+let map = new Map();
 
 let readyBtn =  $('#ready');
-let rightAnswers = ["x+5=11", "5+x=11"];
-rightAnswers.sort();
+let rightAnswers = ["x+5=11", "5+x=11"].sort();
 
 $('button#answer').click( function() {
     $(this).toggleClass("buttonClicked");
@@ -10,38 +9,38 @@ $('button#answer').click( function() {
     checkBtnInList(this);
 });
 
-// Activate-disactivate answer button
 function checkBtnInList (button) {
     let btnText = button.textContent;
-    let btnIndex = activeBtnsText.indexOf(btnText);
     
-    if(btnIndex != -1 && activeBtnsText.length == 1) {
-        activeBtnsText.splice(0, 1);
-        readyBtn.toggleClass("buttonReadyActive");
-        readyBtn.attr("disabled", true);
-    } else if(btnIndex == -1 && activeBtnsText.length == 0) {
-        activeBtnsText.push(btnText);
-        readyBtn.attr("disabled", false);
-        readyBtn.toggleClass("buttonReadyActive");
-    } else if( btnIndex == -1 && activeBtnsText.length >= 1) {
-        activeBtnsText.push(btnText);
+    if(map.has(btnText) && map.size == 1) {
+        map.clear();
+        toogleReadyBtn(true);
+    } else if(map.size == 0) {
+        map.set(btnText);
+        toogleReadyBtn(false);
+    } else if( !map.has(btnText) && map.size >= 1) {
+        map.set(btnText);
     } else {
-        activeBtnsText.splice(btnIndex, 1);
+        map.delete(btnText);
     }
-
-    activeBtnsText.sort();
+}
+function toogleReadyBtn (switchBtn) {
+    readyBtn.toggleClass("buttonReadyActive");
+    readyBtn.attr("disabled", switchBtn);
 }
 
 /**
  * Checking answers
  */
 
- function checkAnswers (readyBtn) {
+function checkAnswers (readyBtn) {
     //Get all selected buttons
     let activeBtns = Array.from( $('.buttonClicked') );
+    let textOfActiveBtns = Array.from( map.keys() );
+    textOfActiveBtns.sort();
 
     //Compare answers
-    if( JSON.stringify(activeBtnsText) == JSON.stringify(rightAnswers) ) {
+    if( JSON.stringify(textOfActiveBtns) == JSON.stringify(rightAnswers) ) {
         $(readyBtn).addClass("buttonReadyCorrect");
         document.getElementById('hint').style.visibility = "hidden"; 
         hideBtns();
@@ -61,6 +60,7 @@ function checkBtnInList (button) {
     }
 }
 
+
 function wrongAnswer(message) {
     document.getElementById('ready').classList.add("wrongBtn"); 
     document.getElementById('hint').textContent = message;
@@ -77,7 +77,6 @@ function hideBtns() {
             element.style.display = "none";
         } );
     }, 1500 );
-
 }
 
 function refreshBtns() {
@@ -89,12 +88,11 @@ function refreshBtns() {
         elements.forEach( (btn) => {
             $(btn).removeClass();
         })
-        activeBtnsText = [];
+
+        map.clear();
     }, 1000);
 }
 
 $('#ready').click( function() {
     checkAnswers(this);
 })
-
-
