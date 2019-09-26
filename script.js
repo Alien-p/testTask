@@ -37,9 +37,10 @@ function checkBtnInList (button) {
  */
 
  function checkAnswers (readyBtn) {
-
+    //Get all selected buttons
     let activeBtns = Array.from( $('.buttonClicked') );
 
+    //Compare answers
     if( JSON.stringify(activeBtnsText) == JSON.stringify(rightAnswers) ) {
         $(readyBtn).addClass("buttonReadyCorrect");
         document.getElementById('hint').style.visibility = "hidden"; 
@@ -51,21 +52,22 @@ function checkBtnInList (button) {
                 btn.classList.remove("buttonClicked");
                 btn.classList.add("wrongBtn");
 
-                document.getElementById('ready').classList.add("wrongBtn"); 
-                document.getElementById('hint').textContent = "Вычисли x"
-                document.getElementById('hint').style.visibility = "visible";
-
-                refreshBtns();
+                wrongAnswer("Вычисли x");
             }
         });
     } else {
-        document.getElementById('hint').textContent = "Это не все правильные ответы"
-        document.getElementById('hint').style.visibility = "visible";
-        document.getElementById('ready').classList.add("wrongBtn"); 
+        wrongAnswer("Это не все правильные ответы");
         refreshBtns();
     }
 }
 
+function wrongAnswer(message) {
+    document.getElementById('ready').classList.add("wrongBtn"); 
+    document.getElementById('hint').textContent = message;
+    document.getElementById('hint').style.visibility = "visible";
+
+    refreshBtns();    
+}
 
 
 function hideBtns() {
