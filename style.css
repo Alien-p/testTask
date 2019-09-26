@@ -76,14 +76,9 @@ button#answer:hover {
     background-color: #f2f2f2;
 }
 
-.buttonClicked {
+button#answer.buttonClicked {
     color: white; 
     background-color: #3a76a3;
-}
-
-.buttonWrong {
-    color: white;
-    background-color: #f05a69;
 }
 
 /*-------------
@@ -99,17 +94,28 @@ button#ready {
     background-color: #b9e0ed;
     color: white;
 }
-.buttonReadyActive {
+
+button#ready.buttonReadyActive {
     background-color: #70c5e2;
 }
-.buttonReadyActive:hover {
+button#ready.buttonReadyActive:hover {
     background-color: #39b6e2;
 }
-.buttonReadyRight:hover {
+
+button#ready.buttonReadyRight:hover {
     background-color: #8fbe83;
 }
+
+button#ready.buttonWrong {
+    background-color: #f05a69;
+}
+button#ready.buttonWrong:hover {
+    background-color: #f05a69;
+}
+
 button#hint {
     margin-bottom: 20px;
     background-color: #add9da;
     color: white;
+    visibility: hidden;
 }
