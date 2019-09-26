@@ -90,11 +90,13 @@ button#answer.buttonClicked {
     flex-flow: column nowrap;
 }
 
+/* Ready button */
 button#ready {
     background-color: #b9e0ed;
     color: white;
 }
 
+/* Set button active */
 button#ready.buttonReadyActive {
     background-color: #70c5e2;
 }
@@ -102,15 +104,34 @@ button#ready.buttonReadyActive:hover {
     background-color: #39b6e2;
 }
 
-button#ready.buttonReadyRight:hover {
+/* Set button correct answer */
+button#ready.buttonReadyCorrect {
+    background-color: #8fbe83;
+}
+button#ready.buttonReadyCorrect:hover {
     background-color: #8fbe83;
 }
 
-button#ready.buttonWrong {
+/* Set button wrong answer */
+button#ready.wrongBtn {
     background-color: #f05a69;
+    color: white;
+    border-color: #f05a69;
 }
-button#ready.buttonWrong:hover {
+button#ready.wrongBtn:hover {
     background-color: #f05a69;
+    color: white;
+    border-color: #f05a69;
+}
+button#answer.wrongBtn {
+    background-color: #f05a69;
+    color: white;
+    border-color: #f05a69;
+}
+button#answer.wrongBtn:hover {
+    background-color: #f05a69;
+    color: white;
+    border-color: #f05a69;
 }
 
 button#hint {
