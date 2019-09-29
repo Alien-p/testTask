@@ -1,99 +1,95 @@
-let selectedBtns = new Map();
-
-let readyBtn =  $('#ready');
+let selectedBtnsMap = new Map();
+let readyBtn = document.getElementById('ready');
 let rightAnswers = ["x+5=11", "5+x=11"].sort();
+let answerBtns = document.querySelectorAll('#answer');
+let allBtns = Array.from(document.getElementsByTagName("button"));    
 
-$('button#answer').click( function() {
-    $(this).toggleClass("buttonClicked");
-    
-    checkBtnInList(this);
+readyBtn.addEventListener("click", () => {
+    checkAnswers();
+});
+
+answerBtns.forEach( (btn) => {
+    btn.addEventListener("click", function () {
+        this.classList.toggle("buttonClicked");
+        this.disabled = true;
+        enableBtns(200);
+        checkBtnInList(this);
+    });
 });
 
 function checkBtnInList (button) {
     let btnText = button.textContent;
 
-    if(selectedBtns.has(btnText) && selectedBtns.size == 1) {
-        selectedBtns.clear();
+    if(selectedBtnsMap.has(btnText) && selectedBtnsMap.size == 1) {
+        selectedBtnsMap.clear();
         turnOffReadyBtn(true);
-    } else if(selectedBtns.size == 0) {
-        selectedBtns.set(btnText);
+    } else if(selectedBtnsMap.size == 0) {
+        selectedBtnsMap.set(btnText);
         turnOffReadyBtn(false);
-    } else if( !selectedBtns.has(btnText) && selectedBtns.size >= 1) {
-        selectedBtns.set(btnText);
+    } else if( !selectedBtnsMap.has(btnText) && selectedBtnsMap.size >= 1) {
+        selectedBtnsMap.set(btnText);
     } else {
-        selectedBtns.delete(btnText);
+        selectedBtnsMap.delete(btnText);
     }
 }
-
-/**
- * Checking answers
- */
-
-$('#ready').click( function() {
-    checkAnswers();
-})
 
 function checkAnswers () {
-    //Get all selected buttons
-    let activeBtns = Array.from( $('.buttonClicked') );
-    let textOfActiveBtns = Array.from( selectedBtns.keys() );
+    let clickedBtns = document.querySelectorAll('.buttonClicked');
+    let activeBtns = Array.from( clickedBtns );
+    let textOfActiveBtns = Array.from( selectedBtnsMap.keys() );
     textOfActiveBtns.sort();
 
-    //Compare answers
     if( JSON.stringify(textOfActiveBtns) == JSON.stringify(rightAnswers) ) {
-        $(readyBtn).addClass("buttonReadyCorrect");
-        document.getElementById('hint').style.visibility = "hidden"; 
-        hideBtns();
+        rightAnswer();
     } else {
-        wrongAnswer();
+        wrongAnswer(activeBtns);
     }
 }
-
-// function checkAnswers (readyBtn) {
-//     //Get all selected buttons
-//     let activeBtns = Array.from( $('.buttonClicked') );
-//     let textOfActiveBtns = Array.from( map.keys() );
-//     textOfActiveBtns.sort();
-
-//     //Compare answers
-//     if( JSON.stringify(textOfActiveBtns) == JSON.stringify(rightAnswers) ) {
-//         $(readyBtn).addClass("buttonReadyCorrect");
-//         document.getElementById('hint').style.visibility = "hidden"; 
-//         hideBtns();
-//     } else if(activeBtns.length >= rightAnswers.length) {
-//         activeBtns.forEach(btn => {
-//             let btnIndex = rightAnswers.indexOf(btn.textContent);
-//             if(btnIndex == -1) {
-//                 btn.classList.remove("buttonClicked");
-//                 btn.classList.add("wrongBtn");
-
-//                 wrongAnswer("Вычисли x");
-//             }
-//         });
-//     } else {
-//         wrongAnswer("Это не все правильные ответы");
-//     }
-// }
 
 function turnOffReadyBtn (switchBtn) {
-    switchBtn ? readyBtn.removeClass("buttonReadyActive") : readyBtn.addClass("buttonReadyActive")
-    readyBtn.attr("disabled", switchBtn);
+    switchBtn ? readyBtn.classList.remove('buttonReadyActive') : readyBtn.classList.add('buttonReadyActive');
+    readyBtn.disabled =  switchBtn;
 }
 
-function wrongAnswer() {
-    // document.getElementById('hint').textContent = message;
+function rightAnswer() {
+    readyBtn.classList.add('buttonReadyCorrect');
+    document.getElementById('hint').style.visibility = "hidden";
+    disableBtns();
+    hideBtns();
+}
+
+function wrongAnswer(activeBtns) {
+    let hintBtn = document.getElementById('hint');
+    let message = "Вычисли x";
     
-    if(selectedBtns.size < rightAnswers.length) {
-        document.querySelectorAll('.buttonClicked').forEach( (btn) => {
-            rightAnswers.indexOf(btn.textContent)
-        })
-    } else {
+    activeBtns.forEach( (btn) => {
+        if( rightAnswers.indexOf(btn.textContent) == -1 ) {
+            btn.classList.remove("buttonClicked");
+            btn.classList.add("wrongAnswer");
+        } else {
+            message = "Это не все правильные ответы";
+        }
+    });
 
-    }
-
+    hintBtn.textContent = message;
+    disableBtns();
+    enableBtns(1000);
     refreshBtns();    
 }
 
+function enableBtns(time) {
+    setTimeout( () => {
+        allBtns.forEach ( function(btn) {
+            btn.disabled = false;
+        } );
+    }, time );
+}
+
+function disableBtns() {
+    allBtns.forEach ( (btn) => {
+        btn.disabled = true;
+    });
+}
 
 function hideBtns() {
     let elements = Array.from($(".container > *"));
@@ -105,19 +101,15 @@ function hideBtns() {
 }
 
 function refreshBtns() {
-    let elements = Array.from($(".middle > *"));
     document.getElementById('hint').style.visibility = "visible";
     document.getElementById('ready').classList.add("wrongAnswer"); 
 
     setTimeout(() => {
-        $('#hint').removeClass();
-        $('#ready').removeClass();
-
-        elements.forEach( (btn) => {
-            $(btn).removeClass();
+        allBtns.forEach( (btn) => {
+            btn.classList = '';
         });
 
         turnOffReadyBtn(true);
-        selectedBtns.clear();
+        selectedBtnsMap.clear();
     }, 1000);
 }
