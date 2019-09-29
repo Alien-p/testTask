@@ -1,4 +1,4 @@
-let map = new Map();
+let selectedBtns = new Map();
 
 let readyBtn =  $('#ready');
 let rightAnswers = ["x+5=11", "5+x=11"].sort();
@@ -12,16 +12,16 @@ $('button#answer').click( function() {
 function checkBtnInList (button) {
     let btnText = button.textContent;
 
-    if(map.has(btnText) && map.size == 1) {
-        map.clear();
+    if(selectedBtns.has(btnText) && selectedBtns.size == 1) {
+        selectedBtns.clear();
         turnOffReadyBtn(true);
-    } else if(map.size == 0) {
-        map.set(btnText);
+    } else if(selectedBtns.size == 0) {
+        selectedBtns.set(btnText);
         turnOffReadyBtn(false);
-    } else if( !map.has(btnText) && map.size >= 1) {
-        map.set(btnText);
+    } else if( !selectedBtns.has(btnText) && selectedBtns.size >= 1) {
+        selectedBtns.set(btnText);
     } else {
-        map.delete(btnText);
+        selectedBtns.delete(btnText);
     }
 }
 
@@ -30,13 +30,13 @@ function checkBtnInList (button) {
  */
 
 $('#ready').click( function() {
-    checkAnswers(this);
+    checkAnswers();
 })
 
-function checkAnswers (readyBtn) {
+function checkAnswers () {
     //Get all selected buttons
     let activeBtns = Array.from( $('.buttonClicked') );
-    let textOfActiveBtns = Array.from( map.keys() );
+    let textOfActiveBtns = Array.from( selectedBtns.keys() );
     textOfActiveBtns.sort();
 
     //Compare answers
@@ -44,32 +44,52 @@ function checkAnswers (readyBtn) {
         $(readyBtn).addClass("buttonReadyCorrect");
         document.getElementById('hint').style.visibility = "hidden"; 
         hideBtns();
-    } else if(activeBtns.length >= rightAnswers.length) {
-        activeBtns.forEach(btn => {
-            let btnIndex = rightAnswers.indexOf(btn.textContent);
-            if(btnIndex == -1) {
-                btn.classList.remove("buttonClicked");
-                btn.classList.add("wrongBtn");
-
-                wrongAnswer("Вычисли x");
-            }
-        });
     } else {
-        wrongAnswer("Это не все правильные ответы");
-        refreshBtns();
+        wrongAnswer();
     }
 }
 
+// function checkAnswers (readyBtn) {
+//     //Get all selected buttons
+//     let activeBtns = Array.from( $('.buttonClicked') );
+//     let textOfActiveBtns = Array.from( map.keys() );
+//     textOfActiveBtns.sort();
+
+//     //Compare answers
+//     if( JSON.stringify(textOfActiveBtns) == JSON.stringify(rightAnswers) ) {
+//         $(readyBtn).addClass("buttonReadyCorrect");
+//         document.getElementById('hint').style.visibility = "hidden"; 
+//         hideBtns();
+//     } else if(activeBtns.length >= rightAnswers.length) {
+//         activeBtns.forEach(btn => {
+//             let btnIndex = rightAnswers.indexOf(btn.textContent);
+//             if(btnIndex == -1) {
+//                 btn.classList.remove("buttonClicked");
+//                 btn.classList.add("wrongBtn");
+
+//                 wrongAnswer("Вычисли x");
+//             }
+//         });
+//     } else {
+//         wrongAnswer("Это не все правильные ответы");
+//     }
+// }
+
 function turnOffReadyBtn (switchBtn) {
-    readyBtn.toggleClass("buttonReadyActive");
+    switchBtn ? readyBtn.removeClass("buttonReadyActive") : readyBtn.addClass("buttonReadyActive")
     readyBtn.attr("disabled", switchBtn);
 }
 
-function wrongAnswer(message) {
-    document.getElementById('ready').classList.add("wrongBtn"); 
-    document.getElementById('hint').textContent = message;
-    document.getElementById('hint').style.visibility = "visible";
-    turnOffReadyBtn(true);
+function wrongAnswer() {
+    // document.getElementById('hint').textContent = message;
+    
+    if(selectedBtns.size < rightAnswers.length) {
+        document.querySelectorAll('.buttonClicked').forEach( (btn) => {
+            rightAnswers.indexOf(btn.textContent)
+        })
+    } else {
+
+    }
 
     refreshBtns();    
 }
@@ -86,14 +106,18 @@ function hideBtns() {
 
 function refreshBtns() {
     let elements = Array.from($(".middle > *"));
+    document.getElementById('hint').style.visibility = "visible";
+    document.getElementById('ready').classList.add("wrongAnswer"); 
 
     setTimeout(() => {
         $('#hint').removeClass();
         $('#ready').removeClass();
+
         elements.forEach( (btn) => {
             $(btn).removeClass();
-        })
+        });
 
-        map.clear();
+        turnOffReadyBtn(true);
+        selectedBtns.clear();
     }, 1000);
 }

@@ -117,22 +117,22 @@ button#ready.buttonReadyCorrect:hover {
 }
 
 /* Set button wrong answer */
-button#ready.wrongBtn {
+button#ready.wrongAnswer {
     background-color: #f05a69;
     color: white;
     border-color: #f05a69;
 }
-button#ready.wrongBtn:hover {
+button#ready.wrongAnswer:hover {
     background-color: #f05a69;
     color: white;
     border-color: #f05a69;
 }
-button#answer.wrongBtn {
+button#answer.wrongAnswer {
     background-color: #f05a69;
     color: white;
     border-color: #f05a69;
 }
-button#answer.wrongBtn:hover {
+button#answer.wrongAnswer:hover {
     background-color: #f05a69;
     color: white;
     border-color: #f05a69;
