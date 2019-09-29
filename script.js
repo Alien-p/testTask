@@ -55,7 +55,7 @@ function rightAnswer() {
     readyBtn.classList.add('buttonReadyCorrect');
     document.getElementById('hint').style.visibility = "hidden";
     disableBtns();
-    hideBtns();
+    hideAll();
 }
 
 function wrongAnswer(activeBtns) {
@@ -91,10 +91,10 @@ function disableBtns() {
     });
 }
 
-function hideBtns() {
-    let elements = Array.from($(".container > *"));
+function hideAll() {
+    let allElements = document.querySelectorAll('.container > *');
     setTimeout( () => {
-        elements.forEach ( function(element) {
+        allElements.forEach ( (element) => {
             element.style.display = "none";
         } );
     }, 1500 );
